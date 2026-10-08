@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary: #e60023;
+  --color-primary-pressed: #cc001f;
+  --color-on-primary: #ffffff;
+  --color-on-ink: #ffffff;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #fbfbf9;
+  --color-surface-card: #f6f6f3;
+  --color-secondary: #e5e5e0;
+  --color-secondary-pressed: #c8c8c1;
+  --color-ink: #000000;
+  --color-body: #33332e;
+  --color-mute: #62625b;
+  --color-ash: #91918c;
+  --color-hairline: #dadad3;
+  --color-focus: #435ee5;
+  --color-error: #9e0a0a;
+  --color-success-bg: #c7f0da;
+  --color-success-ink: #103c25;
+  --color-warn-bg: #fdecc8;
+  --color-warn-ink: #6b4a00;
+  --color-info-bg: #dfe5ff;
+  --color-info-ink: #2a3a99;
+  --color-scrim: rgba(0, 0, 0, 0.5);
+
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-sm: 8px;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+
+  --page-px: 16px;
+  --section-gap: 24px;
+  --card-pad: 16px;
+  --grid-gap: 12px;
+  --fs-display: 36px;
+  --fs-page: 24px;
+  --fs-heading: 22px;
+  --fs-title: 18px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-caption: 12px;
+  --content-max: 1280px;
+}
+
+.dark {
+  --color-canvas: #1b1b18;
+  --color-surface-soft: #20201d;
+  --color-surface-card: #262622;
+  --color-secondary: #34342f;
+  --color-secondary-pressed: #45453f;
+  --color-ink: #ffffff;
+  --color-on-ink: #000000;
+  --color-body: #dcdcd5;
+  --color-mute: #a8a8a0;
+  --color-ash: #7d7d77;
+  --color-hairline: #3d3d38;
+  --color-focus: #8da0ff;
+  --color-error: #ff8a8a;
+  --color-success-bg: #12432a;
+  --color-success-ink: #c7f0da;
+  --color-warn-bg: #4a3600;
+  --color-warn-ink: #fdecc8;
+  --color-info-bg: #26307a;
+  --color-info-ink: #dfe5ff;
+  --color-scrim: rgba(0, 0, 0, 0.7);
+}
+
+@media (min-width: 480px) {
+  :root {
+    --page-px: 20px;
+    --fs-display: 44px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-px: 24px;
+    --section-gap: 28px;
+    --card-pad: 20px;
+    --grid-gap: 12px;
+    --fs-display: 56px;
+    --fs-page: 26px;
+    --fs-heading: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-px: 32px;
+    --section-gap: 32px;
+    --card-pad: 24px;
+    --grid-gap: 16px;
+    --fs-display: 70px;
+    --fs-page: 28px;
+    --fs-heading: 26px;
+  }
+}
+
+@theme inline {
+  --font-sans: "Inter", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --color-primary: var(--color-primary);
+  --color-primary-pressed: var(--color-primary-pressed);
+  --color-on-primary: var(--color-on-primary);
+  --color-on-ink: var(--color-on-ink);
+  --color-canvas: var(--color-canvas);
+  --color-soft: var(--color-surface-soft);
+  --color-card: var(--color-surface-card);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-pressed: var(--color-secondary-pressed);
+  --color-ink: var(--color-ink);
+  --color-body: var(--color-body);
+  --color-mute: var(--color-mute);
+  --color-ash: var(--color-ash);
+  --color-hairline: var(--color-hairline);
+  --color-focus: var(--color-focus);
+  --color-error: var(--color-error);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-ink: var(--color-success-ink);
+  --color-warn-bg: var(--color-warn-bg);
+  --color-warn-ink: var(--color-warn-ink);
+  --color-info-bg: var(--color-info-bg);
+  --color-info-ink: var(--color-info-ink);
+  --color-scrim: var(--color-scrim);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --spacing-page: var(--page-px);
+  --spacing-section: var(--section-gap);
+  --spacing-pad: var(--card-pad);
+  --spacing-grid: var(--grid-gap);
+
+  --text-display: var(--fs-display);
+  --text-page: var(--fs-page);
+  --text-heading: var(--fs-heading);
+  --text-title: var(--fs-title);
+  --text-body: var(--fs-body);
+  --text-small: var(--fs-small);
+  --text-caption: var(--fs-caption);
+
+  --container-content: var(--content-max);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    @apply bg-canvas font-sans text-body antialiased;
+  }
+  input::-ms-reveal {
+    display: none;
+  }
+}

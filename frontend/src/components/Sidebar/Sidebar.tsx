@@ -1,0 +1,40 @@
+import { NavLink } from "react-router-dom";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
+import { useAppSelector } from "../../store/hooks";
+
+const profile = { to: "/profile", label: "My profile", icon: <PersonOutlineIcon fontSize="small" /> };
+
+const links = {
+  resident: [{ to: "/my-complaints", label: "My complaints", icon: <AssignmentOutlinedIcon fontSize="small" /> }, profile],
+  admin: [{ to: "/admin", label: "All complaints", icon: <DashboardOutlinedIcon fontSize="small" /> }, profile],
+};
+
+export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const role = useAppSelector((s) => s.auth.user?.role);
+
+  return (
+    <nav className="flex h-full flex-col gap-6 bg-canvas p-4">
+      <p className="px-3 pt-2 text-title font-bold tracking-tight text-primary">Society Desk</p>
+      <ul className="flex flex-col gap-2">
+        {(role ? links[role] : []).map((link) => (
+          <li key={link.to}>
+            <NavLink
+              to={link.to}
+              onClick={onNavigate}
+              className={({ isActive }) =>
+                `flex h-10 items-center gap-3 rounded-md px-3 text-small font-bold outline-none focus-visible:ring-4 focus-visible:ring-focus ${
+                  isActive ? "bg-ink text-on-ink" : "text-ink active:bg-secondary"
+                }`
+              }
+            >
+              {link.icon}
+              {link.label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
