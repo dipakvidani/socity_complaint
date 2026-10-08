@@ -16,7 +16,7 @@ import { ErrorState, Loader } from "../../../components/States/States";
 import { getErrorMessage } from "../../../config/api";
 import { useAppSelector } from "../../../store/hooks";
 import type { ComplaintDetail, Status } from "../../../types";
-import { CATEGORIES, labelOf, STATUSES } from "../../../utils/constants";
+import { CATEGORIES, getCategoryPlaceholder, getComplaintBannerSrc, labelOf, STATUSES } from "../../../utils/constants";
 import { formatDate } from "../../../utils/format";
 import CommentSection from "../components/CommentSection";
 import { useComplaintSockets } from "../hooks/useComplaintSockets";
@@ -67,7 +67,8 @@ export default function ComplaintDetailPage() {
   const c = state.data;
   const canCancel = user.id === c.residentId && c.status !== "cancelled";
   const isUploadedPhoto = Boolean(c.imageUrl);
-  const bannerSrc = c.imageUrl || `/categories/${c.category.toLowerCase()}.svg`;
+  const bannerSrc = getComplaintBannerSrc(c.imageUrl, c.category);
+  const defaultPlaceholder = getCategoryPlaceholder(c.category);
 
   const cancel = async () => {
     setBusy(true);
@@ -96,7 +97,7 @@ export default function ComplaintDetailPage() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <Link to="/" className="flex w-fit items-center gap-1.5 text-small font-semibold text-ink hover:text-indigo-600 transition-colors">
-        <ArrowBackIcon style={{ fontSize: 18 }} /> Back to complaints
+        <ArrowBackIcon className="!text-[18px]" /> Back to complaints
       </Link>
 
       <article className="flex flex-col gap-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-canvas p-6 shadow-sm">
@@ -130,11 +131,13 @@ export default function ComplaintDetailPage() {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/categories/other.svg";
+              const target = e.currentTarget;
+              target.onerror = null;
+              target.src = defaultPlaceholder;
             }}
           />
           <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-slate-900/75 backdrop-blur-md px-3 py-1.5 text-caption font-medium text-white shadow-lg">
-            <ImageOutlinedIcon style={{ fontSize: 16 }} />
+            <ImageOutlinedIcon className="!text-[16px]" />
             <span>{isUploadedPhoto ? "Attached Photo (Click to Enlarge)" : labelOf(CATEGORIES, c.category)}</span>
           </div>
         </div>
@@ -235,12 +238,21 @@ export default function ComplaintDetailPage() {
               onClick={() => setPreviewOpen(false)}
               className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-ink hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <CloseIcon style={{ fontSize: 18 }} />
+              <CloseIcon className="!text-[18px]" />
             </button>
           </div>
 
           <div className="flex-1 min-h-0 flex items-center justify-center bg-slate-900/5 dark:bg-slate-950 rounded-xl overflow-hidden p-2">
-            <img src={bannerSrc} alt={c.title} className="max-h-[65vh] sm:max-h-[70vh] max-w-full w-auto object-contain rounded-lg shrink-0" />
+            <img
+              src={bannerSrc}
+              alt={c.title}
+              className="max-h-[65vh] sm:max-h-[70vh] max-w-full w-auto object-contain rounded-lg shrink-0"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.onerror = null;
+                target.src = defaultPlaceholder;
+              }}
+            />
           </div>
         </div>
       </Dialog>

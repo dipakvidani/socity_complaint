@@ -119,7 +119,7 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
                     className="h-full w-full object-cover transition-transform duration-300 group-hover/thumb:scale-110"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-900/40 text-white opacity-0 transition-opacity group-hover/thumb:opacity-100">
-                    <RemoveRedEyeOutlinedIcon style={{ fontSize: 18 }} />
+                    <RemoveRedEyeOutlinedIcon className="!text-[18px]" />
                   </div>
                 </div>
 
@@ -135,7 +135,7 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
                       onClick={() => setPreviewOpen(true)}
                       className="text-caption font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer flex items-center gap-1"
                     >
-                      <RemoveRedEyeOutlinedIcon style={{ fontSize: 14 }} />
+                      <RemoveRedEyeOutlinedIcon className="!text-[14px]" />
                       <span>Preview</span>
                     </button>
                     <span className="text-slate-300 dark:text-slate-700">•</span>
@@ -156,7 +156,7 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
                   title="Remove photo"
                   className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
                 >
-                  <CloseIcon style={{ fontSize: 18 }} />
+                  <CloseIcon className="!text-[18px]" />
                 </button>
               </div>
             )}
@@ -205,7 +205,7 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
               onClick={() => setPreviewOpen(false)}
               className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-ink hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <CloseIcon style={{ fontSize: 18 }} />
+              <CloseIcon className="!text-[18px]" />
             </button>
           </div>
 

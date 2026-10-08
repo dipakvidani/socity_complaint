@@ -83,7 +83,7 @@ export default function ProfilePage() {
         {photo && (
           <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
             <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-caption font-medium">
-              <CheckCircleOutlinedIcon style={{ fontSize: 16 }} />
+              <CheckCircleOutlinedIcon className="!text-[16px]" />
               <span>New photo selected - click save to apply changes</span>
             </div>
             <div className="flex gap-2">

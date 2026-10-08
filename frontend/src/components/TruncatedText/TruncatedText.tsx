@@ -1,4 +1,3 @@
-import { CSSProperties } from "react";
 import Tooltip from "@mui/material/Tooltip";
 
 interface TruncatedTextProps {
@@ -8,13 +7,23 @@ interface TruncatedTextProps {
 }
 
 export default function TruncatedText({ text, lines = 1, className = "" }: TruncatedTextProps) {
-  const clamp: CSSProperties | undefined =
-    lines > 1 ? { display: "-webkit-box", WebkitLineClamp: lines, WebkitBoxOrient: "vertical", overflow: "hidden" } : undefined;
+  const lineClampClass =
+    lines > 1
+      ? lines === 2
+        ? "line-clamp-2"
+        : lines === 3
+        ? "line-clamp-3"
+        : lines === 4
+        ? "line-clamp-4"
+        : "line-clamp-none"
+      : "truncate block";
+
   return (
     <Tooltip title={text} arrow enterTouchDelay={0}>
-      <span className={`${lines > 1 ? "" : "block truncate"} break-words ${className}`} style={clamp}>
+      <span className={`${lineClampClass} break-words ${className}`}>
         {text}
       </span>
     </Tooltip>
   );
 }
+

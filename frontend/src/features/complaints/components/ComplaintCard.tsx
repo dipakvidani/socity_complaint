@@ -8,7 +8,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TruncatedText from "../../../components/TruncatedText/TruncatedText";
 import { PriorityBadge, StatusBadge } from "../../../components/StatusBadge/StatusBadge";
 import type { Complaint } from "../../../types";
-import { CATEGORIES, labelOf } from "../../../utils/constants";
+import { CATEGORIES, getCategoryPlaceholder, getComplaintBannerSrc, labelOf } from "../../../utils/constants";
 import { timeAgo } from "../../../utils/format";
 
 interface ComplaintCardProps {
@@ -19,7 +19,8 @@ interface ComplaintCardProps {
 
 export default function ComplaintCard({ complaint, admin = false, actions }: ComplaintCardProps) {
   const isUploadedPhoto = Boolean(complaint.imageUrl);
-  const bannerSrc = complaint.imageUrl || `/categories/${complaint.category.toLowerCase()}.svg`;
+  const bannerSrc = getComplaintBannerSrc(complaint.imageUrl, complaint.category);
+  const defaultPlaceholder = getCategoryPlaceholder(complaint.category);
 
   return (
     <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-canvas p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xl">
@@ -43,13 +44,14 @@ export default function ComplaintCard({ complaint, admin = false, actions }: Com
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={(e) => {
-              // Fallback to other.svg if specific SVG fails to load
-              (e.target as HTMLImageElement).src = "/categories/other.svg";
+              const target = e.currentTarget;
+              target.onerror = null;
+              target.src = defaultPlaceholder;
             }}
           />
           {isUploadedPhoto && (
             <div className="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-slate-900/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-medium text-white shadow-md">
-              <ImageOutlinedIcon style={{ fontSize: 13 }} />
+              <ImageOutlinedIcon className="!text-[13px]" />
               <span>Photo</span>
             </div>
           )}
@@ -65,8 +67,7 @@ export default function ComplaintCard({ complaint, admin = false, actions }: Com
               <TruncatedText text={complaint.title} />
             </span>
             <ArrowForwardIcon
-              className="mt-1 shrink-0 opacity-0 -translate-x-1 transition-all duration-200 group-hover/title:opacity-100 group-hover/title:translate-x-0 text-indigo-600 dark:text-indigo-400"
-              style={{ fontSize: 18 }}
+              className="mt-1 shrink-0 opacity-0 -translate-x-1 transition-all duration-200 group-hover/title:opacity-100 group-hover/title:translate-x-0 text-indigo-600 dark:text-indigo-400 !text-[18px]"
             />
           </Link>
           <p className="text-small text-mute line-clamp-2 leading-relaxed">
@@ -80,15 +81,15 @@ export default function ComplaintCard({ complaint, admin = false, actions }: Com
         <div className="flex flex-wrap items-center gap-2.5">
           {admin && (
             <div className="flex items-center gap-1.5 font-medium text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/60 px-2 py-0.5 rounded-lg border border-slate-200/50 dark:border-slate-700/50">
-              <PersonOutlinedIcon style={{ fontSize: 14 }} className="text-mute" />
+              <PersonOutlinedIcon className="!text-[14px] text-mute" />
               <span className="truncate max-w-[120px]">{complaint.residentName}</span>
               <span className="text-slate-400 dark:text-slate-600">•</span>
-              <HomeOutlinedIcon style={{ fontSize: 14 }} className="text-mute" />
+              <HomeOutlinedIcon className="!text-[14px] text-mute" />
               <span>{complaint.flatNumber}</span>
             </div>
           )}
           <div className="flex items-center gap-1 text-mute">
-            <AccessTimeOutlinedIcon style={{ fontSize: 14 }} />
+            <AccessTimeOutlinedIcon className="!text-[14px]" />
             <span>{timeAgo(complaint.createdAt)}</span>
           </div>
         </div>

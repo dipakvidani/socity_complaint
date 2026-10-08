@@ -76,12 +76,12 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
           {preview ? (
             <img src={preview} alt="Your profile avatar" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
           ) : (
-            <PhotoCameraOutlinedIcon className="text-slate-400 group-hover:text-indigo-500 transition-colors" style={{ fontSize: 36 }} />
+            <PhotoCameraOutlinedIcon className="!text-[36px] text-slate-400 group-hover:text-indigo-500 transition-colors" />
           )}
 
           {/* Hover Overlay */}
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/60 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <PhotoCameraOutlinedIcon style={{ fontSize: 22 }} />
+            <PhotoCameraOutlinedIcon className="!text-[22px]" />
             <span className="text-[10px] font-medium mt-0.5">Change</span>
           </div>
         </button>
@@ -93,7 +93,7 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
           title="Upload new photo"
           className="absolute bottom-0 right-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-indigo-600 text-white shadow-md border-2 border-white dark:border-slate-900 hover:bg-indigo-700 transition-colors"
         >
-          <PhotoCameraOutlinedIcon style={{ fontSize: 14 }} />
+          <PhotoCameraOutlinedIcon className="!text-[14px]" />
         </button>
       </div>
 
@@ -111,7 +111,7 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
             onClick={() => inputRef.current?.click()}
             className="!py-1.5 !px-3 text-caption flex items-center gap-1.5"
           >
-            <FileUploadOutlinedIcon style={{ fontSize: 16 }} />
+            <FileUploadOutlinedIcon className="!text-[16px]" />
             <span>Upload Photo</span>
           </Button>
 
@@ -133,7 +133,7 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
               onClick={onRemovePhoto}
               className="!py-1.5 !px-3 text-caption text-rose-600 dark:text-rose-400 hover:!bg-rose-50 dark:hover:!bg-rose-950/30 flex items-center gap-1.5"
             >
-              <DeleteOutlinedIcon style={{ fontSize: 16 }} />
+              <DeleteOutlinedIcon className="!text-[16px]" />
               <span>Remove Photo</span>
             </Button>
           )}

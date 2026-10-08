@@ -136,13 +136,13 @@ export default function Header({ onMenu }: { onMenu: () => void }) {
   const getNotifIcon = (type: AppNotification["type"]) => {
     switch (type) {
       case "created":
-        return <CampaignOutlinedIcon style={{ fontSize: 18 }} className="text-blue-500" />;
+        return <CampaignOutlinedIcon className="!text-[18px] text-blue-500" />;
       case "updated":
-        return <CheckCircleOutlinedIcon style={{ fontSize: 18 }} className="text-emerald-500" />;
+        return <CheckCircleOutlinedIcon className="!text-[18px] text-emerald-500" />;
       case "commented":
-        return <ChatOutlinedIcon style={{ fontSize: 18 }} className="text-amber-500" />;
+        return <ChatOutlinedIcon className="!text-[18px] text-amber-500" />;
       default:
-        return <InfoOutlinedIcon style={{ fontSize: 18 }} className="text-slate-400" />;
+        return <InfoOutlinedIcon className="!text-[18px] text-slate-400" />;
     }
   };
 
@@ -222,7 +222,7 @@ export default function Header({ onMenu }: { onMenu: () => void }) {
                         onClick={() => dispatch(markAllAsRead({ userId: user.id }))}
                         className="p-1 rounded bg-transparent text-mute hover:text-ink hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                       >
-                        <DoneAllIcon style={{ fontSize: 18 }} />
+                        <DoneAllIcon className="!text-[18px]" />
                       </button>
                     </Tooltip>
                   )}
@@ -233,7 +233,7 @@ export default function Header({ onMenu }: { onMenu: () => void }) {
                         onClick={() => dispatch(clearNotifications({ userId: user.id }))}
                         className="p-1 rounded bg-transparent text-mute hover:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                       >
-                        <DeleteOutlinedIcon style={{ fontSize: 18 }} />
+                        <DeleteOutlinedIcon className="!text-[18px]" />
                       </button>
                     </Tooltip>
                   )}
@@ -244,7 +244,7 @@ export default function Header({ onMenu }: { onMenu: () => void }) {
               <div className="flex-1 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60 bg-canvas">
                 {notifications.length === 0 ? (
                   <div className="flex flex-col items-center justify-center p-8 text-center text-mute gap-2">
-                    <NotificationsOutlinedIcon style={{ fontSize: 40 }} className="opacity-30" />
+                    <NotificationsOutlinedIcon className="!text-[40px] opacity-30" />
                     <p className="text-small font-medium text-ink">No notifications yet</p>
                     <p className="text-caption text-mute">You are all caught up!</p>
                   </div>

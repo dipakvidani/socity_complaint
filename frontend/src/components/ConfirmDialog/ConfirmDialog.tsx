@@ -13,7 +13,21 @@ interface ConfirmDialogProps {
 
 export default function ConfirmDialog({ open, title, message, confirmLabel = "Yes, continue", loading, onConfirm, onClose }: ConfirmDialogProps) {
   return (
-    <Dialog open={open} onClose={loading ? undefined : onClose} fullWidth maxWidth="xs">
+    <Dialog
+      open={open}
+      onClose={loading ? undefined : onClose}
+      fullWidth
+      maxWidth="xs"
+      slotProps={{
+        paper: {
+          sx: {
+            overflow: "hidden",
+            borderRadius: "24px",
+            backgroundImage: "none",
+          },
+        },
+      }}
+    >
       <div className="flex flex-col gap-3 bg-canvas p-6">
         <h2 className="text-heading font-semibold text-ink">{title}</h2>
         <p className="text-small text-mute">{message}</p>
