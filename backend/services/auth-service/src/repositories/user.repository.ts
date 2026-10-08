@@ -25,7 +25,7 @@ export class UserRepository {
     return this.findById(id);
   }
 
-  async updateAvatar(id: number, avatarUrl: string) {
+  async updateAvatar(id: number, avatarUrl: string | null) {
     await db.update(users).set({ avatarUrl }).where(eq(users.id, id));
     return this.findById(id);
   }

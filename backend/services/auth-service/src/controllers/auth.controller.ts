@@ -83,4 +83,13 @@ export class AuthController {
       next(e);
     }
   };
+
+  deleteAvatar = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await this.service.deleteAvatar(req.caller!.userId!);
+      ApiResponse.success(res, "Your photo has been removed.", user);
+    } catch (e) {
+      next(e);
+    }
+  };
 }

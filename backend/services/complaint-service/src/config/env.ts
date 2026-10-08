@@ -12,7 +12,7 @@ export const env = {
     host: need("DB_HOST"),
     port: Number(need("DB_PORT")),
     user: need("DB_USER"),
-    password: need("DB_PASSWORD"),
+    password: process.env.DB_PASSWORD ?? "",
     name: need("DB_NAME"),
   },
   cloudinary: {

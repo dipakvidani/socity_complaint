@@ -98,6 +98,11 @@ export class AuthService {
     return toPublicUser(user!);
   }
 
+  async deleteAvatar(userId: number) {
+    const user = await this.users.updateAvatar(userId, null);
+    return toPublicUser(user!);
+  }
+
   private signAccess(user: User) {
     return jwt.sign({ sub: String(user.id), role: user.role, name: user.fullName, flat: user.flatNumber }, env.accessJwtSecret, { expiresIn: "15m" });
   }
