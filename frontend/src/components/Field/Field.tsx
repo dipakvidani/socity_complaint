@@ -1,6 +1,7 @@
 import { ChangeEvent, forwardRef, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { Control, Controller } from "react-hook-form";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import type { Option } from "../../utils/constants";
@@ -133,86 +134,111 @@ interface SelectFieldProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>,
   placeholder?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  control?: any;
 }
 
 export const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(
-  { label, error, hint, options, placeholder, id, className = "", value, onChange, disabled, name, required, ...rest },
+  { label, error, hint, options, placeholder, id, className = "", value, onChange, disabled, name, required, control: formControl, ...rest },
   ref
 ) {
   const fieldId = id || name;
-  return (
-    <Shell label={label} error={error} hint={hint} htmlFor={fieldId}>
-      <Select
-        id={fieldId}
-        inputRef={ref}
-        name={name}
-        value={value ?? ""}
-        disabled={disabled}
-        displayEmpty={placeholder !== undefined}
-        onChange={(e) => {
-          const fakeEvent = {
-            target: { name, value: e.target.value as string },
-          } as ChangeEvent<HTMLSelectElement>;
-          onChange?.(fakeEvent);
-        }}
-        error={!!error}
-        className={`h-11 w-full text-body ${className}`}
-        sx={{
-          borderRadius: "16px",
-          backgroundColor: "var(--color-canvas)",
-          color: "var(--color-ink)",
-          "& .MuiSelect-select": {
-            padding: "10px 14px",
-            display: "flex",
-            alignItems: "center",
-          },
-          "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: error ? "var(--color-error)" : "var(--color-hairline)",
-          },
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: error ? "var(--color-error)" : "var(--color-ink)",
-          },
-          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "var(--color-ink)",
-            borderWidth: "1.5px",
-          },
-        }}
-        MenuProps={{
-          slotProps: {
-            paper: {
-              sx: {
-                borderRadius: "16px",
-                marginTop: "4px",
-                backgroundColor: "var(--color-canvas)",
-                color: "var(--color-ink)",
-                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.15)",
-                "& .MuiMenuItem-root": {
-                  fontSize: "14px",
-                  padding: "10px 16px",
-                  "&:hover": {
-                    backgroundColor: "var(--color-secondary)",
-                  },
-                  "&.Mui-selected": {
-                    backgroundColor: "var(--color-secondary)",
-                    fontWeight: 600,
-                  },
+
+  const renderSelect = (val: string, onValChange: (v: string) => void) => (
+    <Select
+      id={fieldId}
+      inputRef={ref}
+      name={name}
+      value={val ?? ""}
+      disabled={disabled}
+      displayEmpty={placeholder !== undefined}
+      onChange={(e) => {
+        const nextVal = e.target.value as string;
+        onValChange(nextVal);
+        if (onChange) {
+          const fakeEvent = { target: { name, value: nextVal } } as ChangeEvent<HTMLSelectElement>;
+          onChange(fakeEvent);
+        }
+      }}
+      error={!!error}
+      className={`h-11 w-full text-body ${className}`}
+      sx={{
+        borderRadius: "16px",
+        backgroundColor: "var(--color-canvas)",
+        color: "var(--color-ink)",
+        "& .MuiSelect-select": {
+          padding: "10px 14px",
+          display: "flex",
+          alignItems: "center",
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: error ? "var(--color-error)" : "var(--color-hairline)",
+        },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: error ? "var(--color-error)" : "var(--color-ink)",
+        },
+        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          borderColor: "var(--color-ink)",
+          borderWidth: "1.5px",
+        },
+      }}
+      MenuProps={{
+        slotProps: {
+          paper: {
+            sx: {
+              borderRadius: "16px",
+              marginTop: "4px",
+              backgroundColor: "var(--color-canvas)",
+              color: "var(--color-ink)",
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.15)",
+              zIndex: 1400,
+              "& .MuiMenuItem-root": {
+                fontSize: "14px",
+                padding: "10px 16px",
+                "&:hover": {
+                  backgroundColor: "var(--color-secondary)",
+                },
+                "&.Mui-selected": {
+                  backgroundColor: "var(--color-secondary)",
+                  fontWeight: 600,
                 },
               },
             },
           },
-        }}
-      >
-        {placeholder !== undefined && (
-          <MenuItem value="" disabled={required}>
-            <span className="text-mute">{placeholder}</span>
-          </MenuItem>
-        )}
-        {options.map((o) => (
-          <MenuItem key={o.value} value={o.value}>
-            {o.label}
-          </MenuItem>
-        ))}
-      </Select>
+        },
+      }}
+      {...(rest as any)}
+    >
+      {placeholder !== undefined && (
+        <MenuItem value="" disabled={required}>
+          <span className="text-mute">{placeholder}</span>
+        </MenuItem>
+      )}
+      {options.map((o) => (
+        <MenuItem key={o.value} value={o.value}>
+          {o.label}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+
+  return (
+    <Shell label={label} error={error} hint={hint} htmlFor={fieldId}>
+      {formControl && name ? (
+        <Controller
+          name={name}
+          control={formControl}
+          render={({ field }) => renderSelect(field.value ?? "", field.onChange)}
+        />
+      ) : (
+        renderSelect(value ?? "", (v) => {
+          if (onChange) {
+            const fakeEvent = { target: { name, value: v } } as ChangeEvent<HTMLSelectElement>;
+            onChange(fakeEvent);
+          }
+        })
+      )}
     </Shell>
   );
 });
+
+

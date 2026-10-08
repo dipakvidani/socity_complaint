@@ -28,6 +28,17 @@ export const complaintApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Complaint", id: "LIST" }],
     }),
+    updateComplaint: builder.mutation<ApiResponse<Complaint>, { id: number; formData: FormData }>({
+      query: ({ id, formData }) => ({
+        url: `/complaints/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Complaint", id },
+        { type: "Complaint", id: "LIST" },
+      ],
+    }),
     addComment: builder.mutation<ApiResponse<Comment>, { id: number; message: string }>({
       query: ({ id, message }) => ({
         url: `/complaints/${id}/comments`,
@@ -67,6 +78,7 @@ export const {
   useGetComplaintsQuery,
   useGetComplaintDetailQuery,
   useCreateComplaintMutation,
+  useUpdateComplaintMutation,
   useAddCommentMutation,
   useCancelComplaintMutation,
   useChangeStatusMutation,

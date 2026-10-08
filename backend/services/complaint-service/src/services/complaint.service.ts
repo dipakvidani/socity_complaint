@@ -101,6 +101,30 @@ export class ComplaintService {
     return updated;
   }
 
+  async update(
+    caller: InternalClaims,
+    id: number,
+    input: { title?: string; description?: string; category?: Complaint["category"]; priority?: Complaint["priority"] },
+    image?: Buffer
+  ) {
+    const complaint = await this.getAccessible(caller, id);
+    if (complaint.residentId !== caller.userId) {
+      throw new AppError(403, "You can only edit your own complaints.");
+    }
+    if (complaint.status !== "open") {
+      throw new AppError(400, "Complaints can only be edited while their status is open.");
+    }
+    const imageUrl = image ? await uploadImage(image, "complaints") : complaint.imageUrl;
+    const updated = toComplaintDto(
+      (await this.complaints.update(id, {
+        ...input,
+        imageUrl,
+      }))!
+    );
+    void this.events.publish("complaint.updated", updated);
+    return updated;
+  }
+
   private async getAccessible(caller: InternalClaims, id: number) {
     const complaint = await this.complaints.findById(id);
     if (!complaint) throw new AppError(404, "We could not find that complaint.");

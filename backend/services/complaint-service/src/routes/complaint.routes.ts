@@ -10,6 +10,8 @@ complaintRouter.use(requireUser);
 complaintRouter.get("/", controller.list);
 complaintRouter.post("/", imageUpload.single("image"), controller.create);
 complaintRouter.get("/:id", controller.detail);
+complaintRouter.put("/:id", imageUpload.single("image"), controller.update);
 complaintRouter.post("/:id/comments", controller.addComment);
 complaintRouter.patch("/:id/cancel", controller.cancel);
 complaintRouter.patch("/:id/status", requireAdmin, controller.changeStatus);
+

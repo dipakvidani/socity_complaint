@@ -16,6 +16,7 @@ import { complaintService } from "../services/complaintService";
 export default function ResidentPage() {
   const [params, setParams] = useState<ListParams>({ page: 1, limit: 9, sort: "createdAt", order: "desc" });
   const [open, setOpen] = useState(false);
+  const [editingComplaint, setEditingComplaint] = useState<Complaint | null>(null);
   const [targetCancel, setTargetCancel] = useState<Complaint | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -60,27 +61,43 @@ export default function ResidentPage() {
         params={params}
         onPage={(page) => patch({ page })}
         emptyAction={newButton}
-        renderActions={(c) =>
-          c.status === "cancelled" ? null : (
-            <button
-              type="button"
-              onClick={() => setTargetCancel(c)}
-              className="cursor-pointer text-caption font-semibold text-rose-600 dark:text-rose-400 hover:underline px-2 py-1"
-            >
-              Cancel
-            </button>
-          )
-        }
+        renderActions={(c) => (
+          <div className="flex items-center gap-1">
+            {c.status === "open" && (
+              <button
+                type="button"
+                onClick={() => setEditingComplaint(c)}
+                className="cursor-pointer text-caption font-semibold text-indigo-600 dark:text-indigo-400 hover:underline px-2 py-1"
+              >
+                Edit
+              </button>
+            )}
+            {c.status !== "cancelled" && (
+              <button
+                type="button"
+                onClick={() => setTargetCancel(c)}
+                className="cursor-pointer text-caption font-semibold text-rose-600 dark:text-rose-400 hover:underline px-2 py-1"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        )}
       />
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="md">
+      <Dialog open={open || !!editingComplaint} onClose={() => { setOpen(false); setEditingComplaint(null); }} fullWidth maxWidth="md">
         <div className="flex flex-col gap-4 bg-canvas p-6">
-          <h2 className="text-heading font-semibold text-ink">Raise a complaint</h2>
+          <h2 className="text-heading font-semibold text-ink">{editingComplaint ? "Edit complaint" : "Raise a complaint"}</h2>
           <ComplaintForm
-            onCancel={() => setOpen(false)}
+            key={editingComplaint ? `edit-${editingComplaint.id}` : "new"}
+            initialData={editingComplaint}
+            onCancel={() => {
+              setOpen(false);
+              setEditingComplaint(null);
+            }}
             onDone={() => {
               setOpen(false);
-              setParams((p) => ({ ...p, page: 1, sort: "createdAt", order: "desc" }));
+              setEditingComplaint(null);
               data.reload();
             }}
           />

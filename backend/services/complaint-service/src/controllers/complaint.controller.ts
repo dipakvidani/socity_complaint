@@ -70,4 +70,14 @@ export class ComplaintController {
       next(e);
     }
   };
+
+  update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const input = createComplaintSchema.parse(req.body);
+      const data = await this.service.update(req.caller!, idOf(req), input, req.file?.buffer);
+      ApiResponse.success(res, "Your complaint has been updated.", data);
+    } catch (e) {
+      next(e);
+    }
+  };
 }

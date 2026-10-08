@@ -15,29 +15,38 @@ import { checkImage, complaintSchema, ComplaintValues, filters, LIMITS } from ".
 import { complaintService } from "../services/complaintService";
 
 interface ComplaintFormProps {
+  initialData?: Complaint | null;
   onDone: (complaint: Complaint) => void;
   onCancel: () => void;
 }
 
-export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) {
+export default function ComplaintForm({ initialData, onDone, onCancel }: ComplaintFormProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
+  const isEditing = Boolean(initialData);
+
   const {
     register,
     handleSubmit,
+    control,
     setError,
     watch,
     formState: { errors },
   } = useForm<ComplaintValues>({
     resolver: zodResolver(complaintSchema),
-    defaultValues: { title: "", description: "", priority: "medium" },
+    defaultValues: {
+      title: initialData?.title ?? "",
+      description: initialData?.description ?? "",
+      category: initialData?.category ?? (undefined as unknown as ComplaintValues["category"]),
+      priority: initialData?.priority ?? "medium",
+    },
   });
   const descLength = watch("description")?.length ?? 0;
 
-  const imagePreview = useMemo(() => (image ? URL.createObjectURL(image) : null), [image]);
+  const imagePreview = useMemo(() => (image ? URL.createObjectURL(image) : initialData?.imageUrl ?? null), [image, initialData?.imageUrl]);
 
   const pickImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,13 +63,15 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
       const body = new FormData();
       Object.entries(values).forEach(([k, v]) => body.append(k, v));
       if (image) body.append("image", image);
-      const res = await complaintService.create(body);
+      const res = isEditing && initialData
+        ? await complaintService.update(initialData.id, body)
+        : await complaintService.create(body);
       toast.success(res.message);
       onDone(res.data);
     } catch (error) {
       const fields = getFieldErrors(error);
       if (fields) Object.entries(fields).forEach(([name, message]) => setError(name as keyof ComplaintValues, { message }));
-      toast.error(getErrorMessage(error, "We could not send your complaint. Please try again."));
+      toast.error(getErrorMessage(error, isEditing ? "We could not update your complaint. Please try again." : "We could not send your complaint. Please try again."));
     } finally {
       setBusy(false);
     }
@@ -85,8 +96,8 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
 
         <div className="flex flex-col gap-4">
           <div className="grid gap-4 grid-cols-2">
-            <SelectField label="Category" placeholder="Choose one" options={CATEGORIES} error={errors.category?.message} {...register("category")} />
-            <SelectField label="Priority" options={PRIORITIES} error={errors.priority?.message} {...register("priority")} />
+            <SelectField label="Category" placeholder="Choose one" options={CATEGORIES} error={errors.category?.message} name="category" control={control} />
+            <SelectField label="Priority" options={PRIORITIES} error={errors.priority?.message} name="priority" control={control} />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -172,7 +183,7 @@ export default function ComplaintForm({ onDone, onCancel }: ComplaintFormProps) 
           Cancel
         </Button>
         <Button type="submit" loading={busy}>
-          Send Complaint
+          {isEditing ? "Save Changes" : "Send Complaint"}
         </Button>
       </div>
 

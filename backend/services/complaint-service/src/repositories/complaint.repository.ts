@@ -21,6 +21,11 @@ export class ComplaintRepository {
     return this.findById(id);
   }
 
+  async update(id: number, data: Partial<NewComplaint>) {
+    await db.update(complaints).set(data).where(eq(complaints.id, id));
+    return this.findById(id);
+  }
+
   async list(query: ListQuery, residentId?: number) {
     const filters: SQL[] = [isNull(complaints.deletedAt)];
     if (residentId) filters.push(eq(complaints.residentId, residentId));

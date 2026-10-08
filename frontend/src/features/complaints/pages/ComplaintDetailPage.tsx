@@ -19,6 +19,7 @@ import type { ComplaintDetail, Status } from "../../../types";
 import { CATEGORIES, getCategoryPlaceholder, getComplaintBannerSrc, labelOf, STATUSES } from "../../../utils/constants";
 import { formatDate } from "../../../utils/format";
 import CommentSection from "../components/CommentSection";
+import ComplaintForm from "../components/ComplaintForm";
 import { useComplaintSockets } from "../hooks/useComplaintSockets";
 import { complaintService } from "../services/complaintService";
 
@@ -66,9 +67,11 @@ export default function ComplaintDetailPage() {
 
   const c = state.data;
   const canCancel = user.id === c.residentId && c.status !== "cancelled";
+  const canEdit = user.id === c.residentId && c.status === "open";
   const isUploadedPhoto = Boolean(c.imageUrl);
   const bannerSrc = getComplaintBannerSrc(c.imageUrl, c.category);
   const defaultPlaceholder = getCategoryPlaceholder(c.category);
+  const [editOpen, setEditOpen] = useState(false);
 
   const cancel = async () => {
     setBusy(true);
@@ -150,11 +153,18 @@ export default function ComplaintDetailPage() {
 
         {/* Actions Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-          {canCancel && (
-            <Button variant="secondary" onClick={() => setConfirm(true)}>
-              Cancel complaint
-            </Button>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {canEdit && (
+              <Button onClick={() => setEditOpen(true)}>
+                Edit complaint
+              </Button>
+            )}
+            {canCancel && (
+              <Button variant="secondary" onClick={() => setConfirm(true)}>
+                Cancel complaint
+              </Button>
+            )}
+          </div>
 
           {user.role === "admin" && c.status !== "cancelled" && (
             <div className="flex items-center gap-2.5 text-small font-semibold text-ink">
@@ -208,6 +218,21 @@ export default function ComplaintDetailPage() {
         onConfirm={cancel}
         onClose={() => setConfirm(false)}
       />
+
+      <Dialog open={editOpen} onClose={() => setEditOpen(false)} fullWidth maxWidth="md">
+        <div className="flex flex-col gap-4 bg-canvas p-6">
+          <h2 className="text-heading font-semibold text-ink">Edit complaint</h2>
+          <ComplaintForm
+            key={`edit-detail-${c.id}`}
+            initialData={c}
+            onCancel={() => setEditOpen(false)}
+            onDone={() => {
+              setEditOpen(false);
+              load(true);
+            }}
+          />
+        </div>
+      </Dialog>
 
       {/* Image / Category Banner Lightbox Dialog */}
       <Dialog
