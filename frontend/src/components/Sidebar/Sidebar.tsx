@@ -15,8 +15,13 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const role = useAppSelector((s) => s.auth.user?.role);
 
   return (
-    <nav className="flex h-full flex-col gap-6 bg-canvas p-4">
-      <p className="px-3 pt-2 text-title font-bold tracking-tight text-primary">Society Desk</p>
+    <nav className="flex h-full flex-col gap-6 bg-canvas p-4 border-r border-hairline/60">
+      <div className="flex items-center gap-2.5 px-3 pt-2">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary font-black text-on-primary text-sm shadow-sm">
+          SD
+        </span>
+        <p className="text-title font-extrabold tracking-tight text-ink">Society Desk</p>
+      </div>
       <ul className="flex flex-col gap-2">
         {(role ? links[role] : []).map((link) => (
           <li key={link.to}>
@@ -24,8 +29,8 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               to={link.to}
               onClick={onNavigate}
               className={({ isActive }) =>
-                `flex h-10 items-center gap-3 rounded-md px-3 text-small font-bold outline-none focus-visible:ring-4 focus-visible:ring-focus ${
-                  isActive ? "bg-ink text-on-ink" : "text-ink active:bg-secondary"
+                `flex h-11 items-center gap-3 rounded-full px-4 text-small font-bold outline-none transition-all focus-visible:ring-4 focus-visible:ring-focus ${
+                  isActive ? "bg-primary text-on-primary shadow-xs" : "text-ink hover:bg-secondary/70 active:bg-secondary"
                 }`
               }
             >
@@ -38,3 +43,4 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     </nav>
   );
 }
+

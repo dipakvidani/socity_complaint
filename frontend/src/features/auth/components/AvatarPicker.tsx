@@ -71,12 +71,12 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
           type="button"
           onClick={() => inputRef.current?.click()}
           aria-label="Choose profile photo"
-          className="relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-400 transition-all duration-200 group-hover:border-indigo-500 group-hover:shadow-md"
+          className="relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-hairline bg-card text-mute transition-all duration-200 group-hover:border-primary group-hover:shadow-md"
         >
           {preview ? (
             <img src={preview} alt="Your profile avatar" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
           ) : (
-            <PhotoCameraOutlinedIcon className="!text-[36px] text-slate-400 group-hover:text-indigo-500 transition-colors" />
+            <PhotoCameraOutlinedIcon className="!text-[36px] text-mute group-hover:text-primary transition-colors" />
           )}
 
           {/* Hover Overlay */}
@@ -91,7 +91,7 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
           type="button"
           onClick={() => inputRef.current?.click()}
           title="Upload new photo"
-          className="absolute bottom-0 right-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-indigo-600 text-white shadow-md border-2 border-white dark:border-slate-900 hover:bg-indigo-700 transition-colors"
+          className="absolute bottom-0 right-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary text-on-primary shadow-md border-2 border-canvas hover:brightness-105 transition-colors"
         >
           <PhotoCameraOutlinedIcon className="!text-[14px]" />
         </button>

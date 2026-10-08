@@ -35,7 +35,7 @@ export default function ConfirmDialog({ open, title, message, confirmLabel = "Ye
           <Button variant="secondary" onClick={onClose} disabled={loading}>
             Not now
           </Button>
-          <Button onClick={onConfirm} loading={loading}>
+          <Button variant="danger" onClick={onConfirm} loading={loading}>
             {confirmLabel}
           </Button>
         </div>

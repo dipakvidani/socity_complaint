@@ -37,6 +37,7 @@ export default function ComplaintDetailPage() {
   const [confirm, setConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   const load = useCallback(
     async (silent = false) => {
@@ -71,7 +72,6 @@ export default function ComplaintDetailPage() {
   const isUploadedPhoto = Boolean(c.imageUrl);
   const bannerSrc = getComplaintBannerSrc(c.imageUrl, c.category);
   const defaultPlaceholder = getCategoryPlaceholder(c.category);
-  const [editOpen, setEditOpen] = useState(false);
 
   const cancel = async () => {
     setBusy(true);
@@ -99,7 +99,7 @@ export default function ComplaintDetailPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      <Link to="/" className="flex w-fit items-center gap-1.5 text-small font-semibold text-ink hover:text-indigo-600 transition-colors">
+      <Link to="/" className="flex w-fit items-center gap-1.5 text-small font-bold text-ink hover:text-primary transition-colors">
         <ArrowBackIcon className="!text-[18px]" /> Back to complaints
       </Link>
 
@@ -160,7 +160,7 @@ export default function ComplaintDetailPage() {
               </Button>
             )}
             {canCancel && (
-              <Button variant="secondary" onClick={() => setConfirm(true)}>
+              <Button variant="danger" onClick={() => setConfirm(true)}>
                 Cancel complaint
               </Button>
             )}

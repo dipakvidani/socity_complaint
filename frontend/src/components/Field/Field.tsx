@@ -7,7 +7,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import type { Option } from "../../utils/constants";
 
 const control =
-  "w-full rounded-md border border-ash bg-canvas px-[15px] text-body text-ink outline-none placeholder:text-ash focus:border-2 focus:border-ink focus:ring-4 focus:ring-focus disabled:bg-card";
+  "w-full rounded-2xl border border-hairline bg-canvas px-4 text-body text-ink outline-none placeholder:text-mute focus:border-primary focus:ring-4 focus:ring-primary/25 disabled:bg-card transition-all";
+
 
 interface BaseProps {
   label?: string;

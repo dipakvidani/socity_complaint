@@ -107,22 +107,22 @@ export default function ComplaintForm({ initialData, onDone, onCancel }: Complai
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30 transition-all cursor-pointer group"
+                className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-hairline hover:border-primary rounded-2xl bg-card transition-all cursor-pointer group"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/50 group-hover:text-indigo-600 transition-colors">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-mute group-hover:bg-primary/20 group-hover:text-ink transition-colors">
                   <ImageOutlinedIcon fontSize="medium" />
                 </div>
-                <p className="mt-2 text-small font-semibold text-ink group-hover:text-indigo-600 transition-colors">
+                <p className="mt-2 text-small font-bold text-ink group-hover:text-primary transition-colors">
                   Click to upload a photo
                 </p>
                 <p className="text-caption text-mute mt-0.5">JPG, PNG or WEBP, up to 2 MB</p>
               </button>
             ) : (
-              <div className="relative group flex items-center gap-3.5 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40">
+              <div className="relative group flex items-center gap-3.5 p-3 rounded-2xl border border-hairline bg-card">
                 {/* Image Thumbnail with Hover Zoom */}
                 <div
                   onClick={() => setPreviewOpen(true)}
-                  className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 cursor-pointer group/thumb"
+                  className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-hairline bg-secondary cursor-pointer group/thumb"
                 >
                   <img
                     src={imagePreview}
@@ -144,12 +144,12 @@ export default function ComplaintForm({ initialData, onDone, onCancel }: Complai
                     <button
                       type="button"
                       onClick={() => setPreviewOpen(true)}
-                      className="text-caption font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer flex items-center gap-1"
+                      className="text-caption font-bold text-primary hover:underline cursor-pointer flex items-center gap-1"
                     >
                       <RemoveRedEyeOutlinedIcon className="!text-[14px]" />
                       <span>Preview</span>
                     </button>
-                    <span className="text-slate-300 dark:text-slate-700">•</span>
+                    <span className="text-mute/60">•</span>
                     <button
                       type="button"
                       onClick={() => fileRef.current?.click()}

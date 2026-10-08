@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="flex flex-col gap-section">
       <div>
-        <h1 className="text-page font-semibold tracking-tight text-ink">All complaints</h1>
+        <h1 className="text-page font-extrabold tracking-tight text-ink">All complaints</h1>
         <p className="text-small text-mute">Review what residents have raised and keep them updated.</p>
       </div>
       <ComplaintFilters params={params} onChange={patch} />

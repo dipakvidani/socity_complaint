@@ -50,7 +50,7 @@ export default function ResidentPage() {
     <div className="flex flex-col gap-section">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-page font-semibold tracking-tight text-ink">My complaints</h1>
+          <h1 className="text-page font-extrabold tracking-tight text-ink">My complaints</h1>
           <p className="text-small text-mute">Track what you have raised with the society office.</p>
         </div>
         {newButton}
@@ -62,32 +62,46 @@ export default function ResidentPage() {
         onPage={(page) => patch({ page })}
         emptyAction={newButton}
         renderActions={(c) => (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             {c.status === "open" && (
-              <button
-                type="button"
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={() => setEditingComplaint(c)}
-                className="cursor-pointer text-caption font-semibold text-indigo-600 dark:text-indigo-400 hover:underline px-2 py-1"
               >
                 Edit
-              </button>
+              </Button>
             )}
             {c.status !== "cancelled" && (
-              <button
-                type="button"
+              <Button
+                variant="danger"
+                size="sm"
                 onClick={() => setTargetCancel(c)}
-                className="cursor-pointer text-caption font-semibold text-rose-600 dark:text-rose-400 hover:underline px-2 py-1"
               >
                 Cancel
-              </button>
+              </Button>
             )}
           </div>
         )}
       />
 
-      <Dialog open={open || !!editingComplaint} onClose={() => { setOpen(false); setEditingComplaint(null); }} fullWidth maxWidth="md">
-        <div className="flex flex-col gap-4 bg-canvas p-6">
-          <h2 className="text-heading font-semibold text-ink">{editingComplaint ? "Edit complaint" : "Raise a complaint"}</h2>
+      <Dialog
+        open={open || !!editingComplaint}
+        onClose={() => { setOpen(false); setEditingComplaint(null); }}
+        fullWidth
+        maxWidth="md"
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: "24px",
+              backgroundColor: "var(--color-canvas)",
+              backgroundImage: "none",
+            },
+          },
+        }}
+      >
+        <div className="flex flex-col gap-4 bg-canvas p-6 sm:p-8">
+          <h2 className="text-heading font-extrabold text-ink">{editingComplaint ? "Edit complaint" : "Raise a complaint"}</h2>
           <ComplaintForm
             key={editingComplaint ? `edit-${editingComplaint.id}` : "new"}
             initialData={editingComplaint}
@@ -103,6 +117,7 @@ export default function ResidentPage() {
           />
         </div>
       </Dialog>
+
 
       <ConfirmDialog
         open={!!targetCancel}

@@ -3,33 +3,33 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --color-primary: #e60023;
-  --color-primary-pressed: #cc001f;
-  --color-on-primary: #ffffff;
+  --color-primary: #9fe870;
+  --color-primary-pressed: #8cd75e;
+  --color-on-primary: #0e0f0c;
   --color-on-ink: #ffffff;
   --color-canvas: #ffffff;
-  --color-surface-soft: #fbfbf9;
-  --color-surface-card: #f6f6f3;
-  --color-secondary: #e5e5e0;
-  --color-secondary-pressed: #c8c8c1;
-  --color-ink: #000000;
-  --color-body: #33332e;
-  --color-mute: #62625b;
-  --color-ash: #91918c;
-  --color-hairline: #dadad3;
-  --color-focus: #435ee5;
-  --color-error: #9e0a0a;
-  --color-success-bg: #c7f0da;
-  --color-success-ink: #103c25;
-  --color-warn-bg: #fdecc8;
-  --color-warn-ink: #6b4a00;
-  --color-info-bg: #dfe5ff;
-  --color-info-ink: #2a3a99;
-  --color-scrim: rgba(0, 0, 0, 0.5);
+  --color-surface-soft: #e8ebe6;
+  --color-surface-card: #ffffff;
+  --color-secondary: #e8ebe6;
+  --color-secondary-pressed: #d2d6ce;
+  --color-ink: #0e0f0c;
+  --color-body: #454745;
+  --color-mute: #868685;
+  --color-ash: #a0a49d;
+  --color-hairline: #d8ded5;
+  --color-focus: #9fe870;
+  --color-error: #d03238;
+  --color-success-bg: #e2f6d5;
+  --color-success-ink: #163300;
+  --color-warn-bg: #fff8d6;
+  --color-warn-ink: #b86700;
+  --color-info-bg: #e3f2fd;
+  --color-info-ink: #0277bd;
+  --color-scrim: rgba(14, 15, 12, 0.5);
 
-  --radius-md: 16px;
-  --radius-lg: 32px;
   --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
 
   --space-xs: 4px;
   --space-sm: 8px;
@@ -40,10 +40,10 @@
 
   --page-px: 16px;
   --section-gap: 24px;
-  --card-pad: 16px;
-  --grid-gap: 12px;
-  --fs-display: 36px;
-  --fs-page: 24px;
+  --card-pad: 24px;
+  --grid-gap: 16px;
+  --fs-display: 40px;
+  --fs-page: 28px;
   --fs-heading: 22px;
   --fs-title: 18px;
   --fs-body: 16px;
@@ -53,26 +53,26 @@
 }
 
 .dark {
-  --color-canvas: #1b1b18;
-  --color-surface-soft: #20201d;
-  --color-surface-card: #262622;
-  --color-secondary: #34342f;
-  --color-secondary-pressed: #45453f;
+  --color-canvas: #0e0f0c;
+  --color-surface-soft: #161815;
+  --color-surface-card: #1f221d;
+  --color-secondary: #262924;
+  --color-secondary-pressed: #32362f;
   --color-ink: #ffffff;
-  --color-on-ink: #000000;
-  --color-body: #dcdcd5;
-  --color-mute: #a8a8a0;
-  --color-ash: #7d7d77;
-  --color-hairline: #3d3d38;
-  --color-focus: #8da0ff;
-  --color-error: #ff8a8a;
-  --color-success-bg: #12432a;
-  --color-success-ink: #c7f0da;
-  --color-warn-bg: #4a3600;
-  --color-warn-ink: #fdecc8;
-  --color-info-bg: #26307a;
-  --color-info-ink: #dfe5ff;
-  --color-scrim: rgba(0, 0, 0, 0.7);
+  --color-on-ink: #0e0f0c;
+  --color-body: #d0d4cd;
+  --color-mute: #888d85;
+  --color-ash: #5a5e57;
+  --color-hairline: #2a2e28;
+  --color-focus: #9fe870;
+  --color-error: #ff6b6b;
+  --color-success-bg: #103318;
+  --color-success-ink: #9fe870;
+  --color-warn-bg: #3d2f00;
+  --color-warn-ink: #ffd11a;
+  --color-info-bg: #0d2847;
+  --color-info-ink: #81d4fa;
+  --color-scrim: rgba(0, 0, 0, 0.75);
 }
 
 @media (min-width: 480px) {
@@ -86,8 +86,8 @@
   :root {
     --page-px: 24px;
     --section-gap: 28px;
-    --card-pad: 20px;
-    --grid-gap: 12px;
+    --card-pad: 24px;
+    --grid-gap: 16px;
     --fs-display: 56px;
     --fs-page: 26px;
     --fs-heading: 24px;
@@ -98,8 +98,8 @@
   :root {
     --page-px: 32px;
     --section-gap: 32px;
-    --card-pad: 24px;
-    --grid-gap: 16px;
+    --card-pad: 28px;
+    --grid-gap: 20px;
     --fs-display: 70px;
     --fs-page: 28px;
     --fs-heading: 26px;
@@ -107,7 +107,7 @@
 }
 
 @theme inline {
-  --font-sans: "Inter", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Wise Sans", "Inter", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
 
   --color-primary: var(--color-primary);
   --color-primary-pressed: var(--color-primary-pressed);
@@ -160,9 +160,10 @@
     min-height: 100%;
   }
   body {
-    @apply bg-canvas font-sans text-body antialiased;
+    @apply bg-soft font-sans text-body antialiased;
   }
   input::-ms-reveal {
     display: none;
   }
 }
+

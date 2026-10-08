@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
+import Button from "../../../components/Button/Button";
 import { SelectField } from "../../../components/Field/Field";
 import type { Category, ListParams, Status } from "../../../types";
 import { CATEGORIES, STATUSES } from "../../../utils/constants";
@@ -30,9 +32,22 @@ export default function ComplaintFilters({ params, onChange }: ComplaintFiltersP
     return () => clearTimeout(t);
   }, [text]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const resetFilters = () => {
+    setText("");
+    onChange({
+      search: undefined,
+      status: undefined,
+      category: undefined,
+      sort: "createdAt",
+      order: "desc",
+      page: 1,
+    });
+  };
+
   return (
-    <div className="grid gap-grid sm:grid-cols-2 lg:grid-cols-4">
-      <div className="relative sm:col-span-2 lg:col-span-1">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-12 items-center">
+      {/* Search Input */}
+      <div className="relative sm:col-span-2 lg:col-span-4">
         <SearchIcon className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-mute" fontSize="small" />
         <input
           value={text}
@@ -40,32 +55,57 @@ export default function ComplaintFilters({ params, onChange }: ComplaintFiltersP
           onChange={(e) => setText(filters.text(e.target.value))}
           placeholder="Search by title, details or name"
           aria-label="Search complaints"
-          className="h-12 w-full rounded-full bg-card pr-4 pl-11 text-body text-ink outline-none placeholder:text-ash focus:border focus:border-ash focus:bg-canvas focus:ring-4 focus:ring-focus"
+          className="h-11 w-full rounded-2xl border border-hairline bg-card pr-4 pl-11 text-body text-ink outline-none placeholder:text-mute focus:border-primary focus:bg-canvas focus:ring-4 focus:ring-primary/25 transition-all"
         />
       </div>
-      <SelectField
-        aria-label="Filter by status"
-        placeholder="All statuses"
-        options={STATUSES}
-        value={params.status ?? ""}
-        onChange={(e) => onChange({ status: (e.target.value as Status) || undefined, page: 1 })}
-      />
-      <SelectField
-        aria-label="Filter by category"
-        placeholder="All categories"
-        options={CATEGORIES}
-        value={params.category ?? ""}
-        onChange={(e) => onChange({ category: (e.target.value as Category) || undefined, page: 1 })}
-      />
-      <SelectField
-        aria-label="Sort complaints"
-        options={SORTS}
-        value={`${params.sort}:${params.order}`}
-        onChange={(e) => {
-          const [sort, order] = e.target.value.split(":") as [ListParams["sort"], ListParams["order"]];
-          onChange({ sort, order, page: 1 });
-        }}
-      />
+
+      {/* Status Filter */}
+      <div className="sm:col-span-1 lg:col-span-2">
+        <SelectField
+          aria-label="Filter by status"
+          placeholder="All statuses"
+          options={STATUSES}
+          value={params.status ?? ""}
+          onChange={(e) => onChange({ status: (e.target.value as Status) || undefined, page: 1 })}
+        />
+      </div>
+
+      {/* Category Filter */}
+      <div className="sm:col-span-1 lg:col-span-2">
+        <SelectField
+          aria-label="Filter by category"
+          placeholder="All categories"
+          options={CATEGORIES}
+          value={params.category ?? ""}
+          onChange={(e) => onChange({ category: (e.target.value as Category) || undefined, page: 1 })}
+        />
+      </div>
+
+      {/* Sort Options */}
+      <div className="sm:col-span-1 lg:col-span-2">
+        <SelectField
+          aria-label="Sort complaints"
+          options={SORTS}
+          value={`${params.sort}:${params.order}`}
+          onChange={(e) => {
+            const [sort, order] = e.target.value.split(":") as [ListParams["sort"], ListParams["order"]];
+            onChange({ sort, order, page: 1 });
+          }}
+        />
+      </div>
+
+      {/* Always Visible Reset Filter Button */}
+      <div className="sm:col-span-1 lg:col-span-2 flex">
+        <Button
+          variant="secondary"
+          onClick={resetFilters}
+          className="w-full h-11 shrink-0 whitespace-nowrap"
+          title="Reset all filters and sorting to defaults"
+        >
+          <RestartAltOutlinedIcon fontSize="small" /> Reset Filters
+        </Button>
+      </div>
     </div>
   );
 }
+
