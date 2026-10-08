@@ -2,7 +2,7 @@ import { ChangeEvent, SyntheticEvent, useMemo, useRef, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import ReactCrop, { centerCrop, makeAspectCrop, PercentCrop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import PhotoCameraOutlinedIcon from "@mui/icons-material/PhotoCameraOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";

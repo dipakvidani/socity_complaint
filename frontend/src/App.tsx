@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -22,11 +22,28 @@ const buildTheme = (mode: ThemeMode) =>
     },
   });
 
+function useToastPosition() {
+  const [position, setPosition] = useState<"top-right" | "bottom-center">(() =>
+    typeof window !== "undefined" && window.innerWidth < 768 ? "bottom-center" : "top-right"
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPosition(window.innerWidth < 768 ? "bottom-center" : "top-right");
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return position;
+}
+
 export default function App() {
   useSessionLoader();
   const ready = useAppSelector((s) => s.auth.ready);
   const mode = useAppSelector((s) => s.theme.mode);
   const theme = useMemo(() => buildTheme(mode), [mode]);
+  const toastPosition = useToastPosition();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", mode === "dark");
@@ -35,8 +52,17 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Toaster
-        position="top-center"
-        toastOptions={{ duration: 4000, style: { borderRadius: 16, background: "var(--color-canvas)", color: "var(--color-ink)", border: "1px solid var(--color-hairline)" } }}
+        position={toastPosition}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            borderRadius: 16,
+            background: "var(--color-canvas)",
+            color: "var(--color-ink)",
+            border: "1px solid var(--color-hairline)",
+            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
+          },
+        }}
       />
       {!ready ? (
         <Loader full label="Getting things ready..." />

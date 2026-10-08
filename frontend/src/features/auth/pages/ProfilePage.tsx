@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import Button from "../../../components/Button/Button";
 import Card from "../../../components/Card/Card";

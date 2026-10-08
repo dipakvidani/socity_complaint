@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import { getErrorMessage } from "../../../config/api";
 import type { Complaint, ListParams, Status } from "../../../types";
 import { STATUSES } from "../../../utils/constants";

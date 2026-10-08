@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import { AxiosError } from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "../../../components/Button/Button";

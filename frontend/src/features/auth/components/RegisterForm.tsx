@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import Button from "../../../components/Button/Button";
 import { PasswordField, TextField } from "../../../components/Field/Field";
 import { getErrorMessage, getFieldErrors } from "../../../config/api";

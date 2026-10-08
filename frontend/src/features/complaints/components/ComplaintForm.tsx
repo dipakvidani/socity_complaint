@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import toast from "../../../utils/toast";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import Button from "../../../components/Button/Button";
 import { SelectField, TextAreaField, TextField } from "../../../components/Field/Field";
