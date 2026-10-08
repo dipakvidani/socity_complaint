@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import toast from "../../../utils/toast";
 import { getErrorMessage } from "../../../config/api";
 import type { Complaint, ListParams, Status } from "../../../types";
@@ -40,18 +42,40 @@ export default function AdminDashboardPage() {
         onPage={(page) => patch({ page })}
         renderActions={(c) =>
           c.status === "cancelled" ? null : (
-            <select
+            <Select
+              size="small"
               aria-label={`Change status of ${c.title}`}
               value={c.status}
               onChange={(e) => changeStatus(c, e.target.value as Exclude<Status, "cancelled">)}
-              className="h-9 cursor-pointer rounded-md border border-ash bg-canvas px-2 text-caption font-semibold text-ink outline-none focus:ring-4 focus:ring-focus"
+              sx={{
+                height: 36,
+                borderRadius: "12px",
+                fontSize: "13px",
+                fontWeight: 600,
+                backgroundColor: "var(--color-canvas)",
+                color: "var(--color-ink)",
+                "& .MuiOutlinedInput-notchedOutline": { borderColor: "var(--color-hairline)" },
+                "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "var(--color-ink)" },
+              }}
+              MenuProps={{
+                slotProps: {
+                  paper: {
+                    sx: {
+                      borderRadius: "12px",
+                      backgroundColor: "var(--color-canvas)",
+                      color: "var(--color-ink)",
+                      "& .MuiMenuItem-root": { fontSize: "13px", padding: "8px 14px" },
+                    },
+                  },
+                },
+              }}
             >
               {STATUSES.filter((s) => s.value !== "cancelled").map((s) => (
-                <option key={s.value} value={s.value}>
+                <MenuItem key={s.value} value={s.value}>
                   {s.label}
-                </option>
+                </MenuItem>
               ))}
-            </select>
+            </Select>
           )
         }
       />

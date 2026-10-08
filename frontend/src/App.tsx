@@ -17,7 +17,7 @@ const buildTheme = (mode: ThemeMode) =>
     shape: { borderRadius: 16 },
     typography: { fontFamily: '"Inter", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif' },
     components: {
-      MuiDialog: { styleOverrides: { paper: { borderRadius: 32, backgroundImage: "none" } } },
+      MuiDialog: { styleOverrides: { paper: { borderRadius: 24, backgroundImage: "none" } } },
       MuiTooltip: { styleOverrides: { tooltip: { borderRadius: 8, fontSize: 12 } } },
     },
   });
@@ -61,6 +61,12 @@ export default function App() {
             color: "var(--color-ink)",
             border: "1px solid var(--color-hairline)",
             boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
+            maxWidth: "calc(100vw - 32px)",
+            wordBreak: "break-word",
+            overflowWrap: "anywhere",
+            fontSize: "14px",
+            lineHeight: "1.4",
+            padding: "10px 14px",
           },
         }}
       />

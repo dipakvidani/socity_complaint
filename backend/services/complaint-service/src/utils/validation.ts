@@ -3,6 +3,7 @@ import { CATEGORIES, PRIORITIES, STATUSES } from "../models/complaint.model.js";
 
 export const TITLE_REGEX = /^[A-Za-z0-9][A-Za-z0-9 ,.'\-()/&!?]*$/;
 export const TEXT_REGEX = /^[^<>]*$/;
+export const SEARCH_REGEX = /^[A-Za-z0-9 ,.'\-()/&!?]*$/;
 
 const trimmed = (v: unknown) => (typeof v === "string" ? v.trim() : v);
 
@@ -45,7 +46,14 @@ export const statusSchema = z.object({
 export const listQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(10),
-  search: z.preprocess(trimmed, z.string().max(60).optional()),
+  search: z.preprocess(
+    trimmed,
+    z
+      .string()
+      .max(60, "Search query can be up to 60 characters.")
+      .regex(SEARCH_REGEX, "Search query contains invalid characters.")
+      .optional()
+  ),
   status: z.enum(STATUSES).optional(),
   category: z.enum(CATEGORIES).optional(),
   sort: z.enum(["createdAt", "title", "priority", "status"]).default("createdAt"),

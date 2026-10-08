@@ -37,12 +37,38 @@ api.interceptors.response.use(
 );
 
 export const getErrorMessage = (error: unknown, fallback = "Something went wrong. Please try again."): string => {
+  if (!error) return fallback;
+  
+  // RTK Query FetchBaseQueryError
+  if (typeof error === "object" && "data" in error && error.data) {
+    const rtkData = (error as { data?: ErrorBody }).data;
+    if (rtkData?.message) return rtkData.message;
+  }
+  
+  // Axios Error
   const err = error as AxiosError<ErrorBody>;
-  if (!err.response) return "We could not reach the server. Check your connection and try again.";
-  return err.response.data?.message || fallback;
+  if (err.response) {
+    return err.response.data?.message || fallback;
+  }
+  
+  if (err.message === "Network Error") {
+    return "We could not reach the server. Check your connection and try again.";
+  }
+  
+  return fallback;
 };
 
-export const getFieldErrors = (error: unknown): FieldErrors | null =>
-  (error as AxiosError<ErrorBody>).response?.data?.meta?.errors || null;
+export const getFieldErrors = (error: unknown): FieldErrors | null => {
+  if (!error) return null;
+  
+  // RTK Query FetchBaseQueryError
+  if (typeof error === "object" && "data" in error && error.data) {
+    const rtkData = (error as { data?: ErrorBody }).data;
+    if (rtkData?.meta?.errors) return rtkData.meta.errors;
+  }
+  
+  // Axios Error
+  return (error as AxiosError<ErrorBody>).response?.data?.meta?.errors || null;
+};
 
 export default api;

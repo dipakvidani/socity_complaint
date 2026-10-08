@@ -86,7 +86,7 @@ export class ComplaintService {
   async cancel(caller: InternalClaims, id: number) {
     const complaint = await this.getAccessible(caller, id);
     if (complaint.residentId !== caller.userId) throw new AppError(403, "You can only cancel your own complaints.");
-    if (complaint.status !== "open") throw new AppError(400, "Only complaints that are still open can be cancelled.");
+    if (complaint.status === "cancelled") throw new AppError(400, "This complaint is already cancelled.");
     const updated = toComplaintDto((await this.complaints.updateStatus(id, "cancelled"))!);
     void this.events.publish("complaint.updated", updated);
     return updated;

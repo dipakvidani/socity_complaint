@@ -1,6 +1,7 @@
 import api from "../../../config/api";
 import type { ApiResponse, User } from "../../../types";
 import type { LoginValues, ProfileValues } from "../../../utils/validation";
+export { authApi, useLoginMutation, useRegisterMutation, useLogoutMutation, useUpdateProfileMutation, useUpdateAvatarMutation, useDeleteAvatarMutation, useGetMeQuery } from "../../../store/authApi";
 
 export const authService = {
   login: (body: LoginValues) => api.post<ApiResponse<User>>("/auth/login", body).then((r) => r.data),

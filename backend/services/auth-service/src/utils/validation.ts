@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const NAME_REGEX = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const MOBILE_REGEX = /^[6-9]\d{9}$/;
 export const FLAT_REGEX = /^[A-Za-z0-9]+(?:[-/][A-Za-z0-9]+)*$/;
 export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,64}$/;
@@ -19,9 +20,19 @@ export const registerSchema = z.object({
   ),
   email: z.preprocess(
     lowered,
-    z.string().min(5, "Enter your email address.").max(100, "Email can be up to 100 characters.").email("Enter a valid email address.")
+    z
+      .string()
+      .min(5, "Enter your email address.")
+      .max(100, "Email can be up to 100 characters.")
+      .regex(EMAIL_REGEX, "Enter a valid email address.")
   ),
-  mobile: z.preprocess(trimmed, z.string().regex(MOBILE_REGEX, "Enter a 10 digit mobile number starting with 6 to 9.")),
+  mobile: z.preprocess(
+    trimmed,
+    z
+      .string()
+      .length(10, "Mobile number must be exactly 10 digits.")
+      .regex(MOBILE_REGEX, "Enter a 10 digit mobile number starting with 6 to 9.")
+  ),
   flatNumber: z.preprocess(
     trimmed,
     z
@@ -32,12 +43,21 @@ export const registerSchema = z.object({
   ),
   password: z
     .string()
+    .min(8, "Password must be at least 8 characters.")
+    .max(64, "Password can be up to 64 characters.")
     .regex(PASSWORD_REGEX, "Use 8 to 64 characters with an uppercase, a lowercase, a number and a special character."),
 });
 
 export const profileSchema = registerSchema.pick({ fullName: true, mobile: true, flatNumber: true });
 
 export const loginSchema = z.object({
-  email: z.preprocess(lowered, z.string().min(1, "Enter your email address.").max(100, "Email is too long.").email("Enter a valid email address.")),
+  email: z.preprocess(
+    lowered,
+    z
+      .string()
+      .min(1, "Enter your email address.")
+      .max(100, "Email is too long.")
+      .regex(EMAIL_REGEX, "Enter a valid email address.")
+  ),
   password: z.string().min(1, "Enter your password.").max(64, "Password is too long."),
 });

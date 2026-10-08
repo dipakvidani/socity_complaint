@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" width="400" height="220">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#bg)" />
+  <circle cx="200" cy="100" r="85" fill="#818cf8" fill-opacity="0.08" />
+  <circle cx="200" cy="100" r="55" fill="#818cf8" fill-opacity="0.12" />
+  <g transform="translate(160, 48)" fill="none" stroke="#c7d2fe" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 40 10 L 70 25 V 55 C 70 80 40 95 40 95 C 40 95 10 80 10 55 V 25 Z" fill="#4338ca" fill-opacity="0.4" stroke="#818cf8" />
+    <circle cx="40" cy="48" r="8" fill="#e0e7ff" />
+    <path d="M 40 56 V 70" stroke="#e0e7ff" stroke-width="4" />
+  </g>
+  <text x="200" y="180" text-anchor="middle" fill="#e0e7ff" font-family="system-ui, sans-serif" font-size="16" font-weight="700" letter-spacing="1">SECURITY & SAFETY</text>
+</svg>

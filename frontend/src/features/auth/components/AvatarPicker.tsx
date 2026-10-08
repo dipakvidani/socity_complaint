@@ -142,8 +142,23 @@ export default function AvatarPicker({ file, currentUrl, onChange, onRemovePhoto
 
       <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={pick} />
 
-      {/* Image Crop Dialog */}
-      <Dialog open={!!source} onClose={() => setSource(null)} maxWidth="xs" fullWidth className="backdrop-blur-sm">
+      {/* Image Crop Dialog (Auth/Profile Wider Dialog) */}
+      <Dialog
+        open={!!source}
+        onClose={() => setSource(null)}
+        maxWidth="sm"
+        fullWidth
+        className="backdrop-blur-sm"
+        slotProps={{
+          paper: {
+            sx: {
+              overflow: "hidden",
+              borderRadius: "24px",
+              backgroundImage: "none",
+            },
+          },
+        }}
+      >
         <div className="flex flex-col gap-4 bg-canvas p-6 rounded-2xl shadow-xl">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <h2 className="text-heading font-semibold text-ink">Crop Profile Photo</h2>

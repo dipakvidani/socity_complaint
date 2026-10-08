@@ -1,4 +1,6 @@
 import { ChangeEvent, forwardRef, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import type { Option } from "../../utils/constants";
@@ -126,26 +128,91 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
   );
 });
 
-interface SelectFieldProps extends SelectHTMLAttributes<HTMLSelectElement>, BaseProps {
+interface SelectFieldProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "value" | "onChange">, BaseProps {
   options: Option[];
   placeholder?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(
-  { label, error, hint, options, placeholder, id, className = "", ...rest },
+  { label, error, hint, options, placeholder, id, className = "", value, onChange, disabled, name, required, ...rest },
   ref
 ) {
-  const fieldId = id || rest.name;
+  const fieldId = id || name;
   return (
     <Shell label={label} error={error} hint={hint} htmlFor={fieldId}>
-      <select id={fieldId} ref={ref} aria-invalid={!!error} className={`h-11 cursor-pointer ${control} ${error ? "border-error" : ""} ${className}`} {...rest}>
-        {placeholder !== undefined && <option value="">{placeholder}</option>}
+      <Select
+        id={fieldId}
+        inputRef={ref}
+        name={name}
+        value={value ?? ""}
+        disabled={disabled}
+        displayEmpty={placeholder !== undefined}
+        onChange={(e) => {
+          const fakeEvent = {
+            target: { name, value: e.target.value as string },
+          } as ChangeEvent<HTMLSelectElement>;
+          onChange?.(fakeEvent);
+        }}
+        error={!!error}
+        className={`h-11 w-full text-body ${className}`}
+        sx={{
+          borderRadius: "16px",
+          backgroundColor: "var(--color-canvas)",
+          color: "var(--color-ink)",
+          "& .MuiSelect-select": {
+            padding: "10px 14px",
+            display: "flex",
+            alignItems: "center",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: error ? "var(--color-error)" : "var(--color-hairline)",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: error ? "var(--color-error)" : "var(--color-ink)",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "var(--color-ink)",
+            borderWidth: "1.5px",
+          },
+        }}
+        MenuProps={{
+          slotProps: {
+            paper: {
+              sx: {
+                borderRadius: "16px",
+                marginTop: "4px",
+                backgroundColor: "var(--color-canvas)",
+                color: "var(--color-ink)",
+                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.15)",
+                "& .MuiMenuItem-root": {
+                  fontSize: "14px",
+                  padding: "10px 16px",
+                  "&:hover": {
+                    backgroundColor: "var(--color-secondary)",
+                  },
+                  "&.Mui-selected": {
+                    backgroundColor: "var(--color-secondary)",
+                    fontWeight: 600,
+                  },
+                },
+              },
+            },
+          },
+        }}
+      >
+        {placeholder !== undefined && (
+          <MenuItem value="" disabled={required}>
+            <span className="text-mute">{placeholder}</span>
+          </MenuItem>
+        )}
         {options.map((o) => (
-          <option key={o.value} value={o.value}>
+          <MenuItem key={o.value} value={o.value}>
             {o.label}
-          </option>
+          </MenuItem>
         ))}
-      </select>
+      </Select>
     </Shell>
   );
 });

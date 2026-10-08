@@ -1,5 +1,14 @@
 import api from "../../../config/api";
 import type { ApiResponse, Comment, Complaint, ComplaintDetail, ListParams, Meta, Status } from "../../../types";
+export {
+  complaintApi,
+  useGetComplaintsQuery,
+  useGetComplaintDetailQuery,
+  useCreateComplaintMutation,
+  useAddCommentMutation,
+  useCancelComplaintMutation,
+  useChangeStatusMutation,
+} from "../../../store/complaintApi";
 
 export const complaintService = {
   list: (params: ListParams) => api.get<ApiResponse<Complaint[], Meta>>("/complaints", { params }).then((r) => r.data),
